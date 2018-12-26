@@ -78,6 +78,7 @@ class VoiceSearchFragment
     override fun onError(error: Int) {
         val errorMessage = getErrorSpeech(error)
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        resetMessage()
     }
 
     override fun onResults(results: Bundle?) {
@@ -183,5 +184,10 @@ class VoiceSearchFragment
             message.typeWriter("Record audio was declined for search", 10)
             voice.visibility = View.GONE
         }
+    }
+
+    private fun resetMessage(){
+        getViewDataBinding().message.text = "Find new code repositories.\n" +
+                "Now you can do voice search anywhere."
     }
 }
