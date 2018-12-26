@@ -1,7 +1,11 @@
 package br.com.charleston.github.features.voicesearch.screens
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -15,16 +19,21 @@ import br.com.charleston.github.databinding.FragmentVoiceSearchBinding
 import br.com.charleston.github.extensions.typeWriter
 import br.com.charleston.github.features.voicesearch.states.SearchState
 import br.com.charleston.github.features.voicesearch.viewmodel.VoiceSearchViewModel
+import com.tbruyelle.rxpermissions2.RxPermissions
+
 
 class VoiceSearchFragment
     : BaseFragment<FragmentVoiceSearchBinding, VoiceSearchViewModel>(),
-    RecognitionListener {
+    RecognitionListener,
+    VoiceSearchHandler {
 
     private val speech by lazy {
         SpeechRecognizer.createSpeechRecognizer(context).apply {
             setRecognitionListener(this@VoiceSearchFragment)
         }
     }
+
+    private val rxPermissions by lazy { RxPermissions(activity!!) }
 
     companion object {
         private const val MAX_RESULT = 1
@@ -75,11 +84,23 @@ class VoiceSearchFragment
 
     override fun onResults(results: Bundle?) {
         val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-        search(matches?.get(0))
+        search(matches?.get(0)!!)
+    }
+
+    @SuppressLint("CheckResult")
+    override fun onSearchStart() {
+        rxPermissions
+            .request(Manifest.permission.RECORD_AUDIO)
+            .subscribe { granted ->
+                when {
+                    granted -> getViewModel().input.listen()
+                    else -> handlerPermissionError()
+                }
+            }
     }
 
     private fun bindView() {
-        getViewDataBinding().viewModel = getViewModel()
+        getViewDataBinding().handlers = this
     }
 
     private fun observerViewModel() {
@@ -102,16 +123,16 @@ class VoiceSearchFragment
 
     private fun searching(text: String?) {
         val searchingText = text!!.toUpperCase()
-        getViewDataBinding().message.typeWriter("Searching repository by\n$searchingText", 50)
+        getViewDataBinding().message.typeWriter("Searching repository by\n$searchingText")
     }
 
-    private fun search(text: String?) {
+    private fun search(text: String) {
         getViewModel().input.search(text)
     }
 
     private fun playSpeech() {
         getViewDataBinding().run {
-            message.typeWriter("Listening...", 50)
+            message.typeWriter("Listening...")
             voice.playAnimation()
         }
         speech.startListening(speechIntent())
@@ -119,7 +140,7 @@ class VoiceSearchFragment
 
     private fun stopSpeech() {
         speech.stopListening()
-        getViewDataBinding().voice.apply {
+        getViewDataBinding().voice.run {
             frame = 0
             cancelAnimation()
         }
@@ -127,11 +148,6 @@ class VoiceSearchFragment
 
     private fun cancelSpeech() {
         if (speech != null) speech.cancel()
-    }
-
-    private fun handlerError(throwable: Throwable) {
-        stopSpeech()
-        Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
     }
 
     private fun speechIntent(): Intent {
@@ -156,6 +172,18 @@ class VoiceSearchFragment
             SpeechRecognizer.ERROR_SERVER -> "error from server"
             SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
             else -> "Didn't understand, please try again."
+        }
+    }
+
+    private fun handlerError(throwable: Throwable) {
+        stopSpeech()
+        Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun handlerPermissionError() {
+        getViewDataBinding().run {
+            message.typeWriter("Record audio was declined for search", 10)
+            voice.visibility = View.GONE
         }
     }
 }

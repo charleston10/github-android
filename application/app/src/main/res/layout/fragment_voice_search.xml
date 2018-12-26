@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel"
-                  type="br.com.charleston.github.features.voicesearch.viewmodel.InputVoiceSearchViewModel"/>
+        <variable name="handlers"
+                  type="br.com.charleston.github.features.voicesearch.screens.VoiceSearchHandler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,7 @@ Now you can do voice search anywhere." app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.airbnb.lottie.LottieAnimationView
-                android:onClick="@{()-> viewModel.listen()}"
+                android:onClick="@{()-> handlers.onSearchStart()}"
                 android:id="@+id/voice"
                 android:layout_width="160dp"
                 android:layout_height="160dp"

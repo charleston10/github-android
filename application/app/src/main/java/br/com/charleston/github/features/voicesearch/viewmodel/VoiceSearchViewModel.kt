@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.charleston.core.base.BaseViewModel
 import br.com.charleston.github.features.voicesearch.states.SearchState
+import com.tbruyelle.rxpermissions2.RxPermissions
 import javax.inject.Inject
 
 interface InputVoiceSearchViewModel {
     fun listen()
-    fun search(text: String?)
+    fun search(text: String)
 }
 
 interface OutputVoiceSearchViewModel {
@@ -37,11 +38,7 @@ class VoiceSearchViewModel @Inject constructor(
         searchObservable.postValue(SearchState.Listening)
     }
 
-    override fun search(text: String?) {
-        if (text == null) {
-            searchObservable.postValue(SearchState.Error(Throwable("Text to search is empty")))
-        }else{
-            searchObservable.postValue(SearchState.Loading(text))
-        }
+    override fun search(text: String) {
+        searchObservable.postValue(SearchState.Loading(text))
     }
 }

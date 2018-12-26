@@ -3,7 +3,7 @@ package br.com.charleston.github.extensions
 import android.os.Handler
 import android.widget.TextView
 
-fun TextView.typeWriter(text: String, delay: Long = 150) {
+fun TextView.typeWriter(text: String, delay: Long = 10) {
     var index = 0
     val handler = Handler()
 
