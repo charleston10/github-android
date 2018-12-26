@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def config = rootProject.ext
+
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionName config.versionName
+        testApplicationId config.applicationTestId
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding.enabled = true
+}
+
+dependencies {
+    def libCore = rootProject.ext.coreDependencies
+    implementation libCore.kodein
+
+    implementation libCore.arch.archNavigationFragment
+    implementation libCore.arch.archNavigationUi
+    implementation libCore.arch.archRuntime
+    implementation libCore.arch.archExtensions
+    kapt libCore.arch.archCompiler
+
+    implementation libCore.dagger.daggerAndroid
+    implementation libCore.dagger.daggerSupport
+    kapt libCore.dagger.daggerProcessor
+    kapt libCore.dagger.daggerCompiler
+    implementation libCore.dagger.dagger
+
+    implementation libCore.rx.rxJava
+    implementation libCore.rx.rxAndroid
+    implementation(libCore.rx.rxPermission) { transitive = true }
+
+    implementation libCore.kotlin
+    implementation libCore.monitoring.timber
+}

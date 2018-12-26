@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def config = rootProject.ext
+
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionName config.versionName
+        testApplicationId config.applicationTestId
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            dimension "default"
+            applicationIdSuffix ".dev"
+        }
+        prod {
+            dimension "default"
+            versionCode config.versionApp * 1000000 + config.versionFeature * 1000 + config.versionPatch * 100
+        }
+    }
+
+    dataBinding.enabled = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        incremental = false
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    testBuildType "debug"
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':domain')
+    implementation project(':data')
+
+    def libCore = rootProject.ext.coreDependencies
+    implementation libCore.kotlin
+    implementation libCore.billing
+    implementation libCore.kodein
+    implementation libCore.google.material
+
+    implementation libCore.monitoring.timber
+
+    implementation libCore.arch.archNavigationFragment
+    implementation libCore.arch.archNavigationUi
+    implementation libCore.arch.archRuntime
+    implementation libCore.arch.archExtensions
+    implementation libCore.arch.archConstraintLayout
+    kapt libCore.arch.archCompiler
+
+    implementation libCore.dagger.daggerAndroid
+    implementation libCore.dagger.daggerSupport
+    kapt libCore.dagger.daggerProcessor
+    kapt libCore.dagger.daggerCompiler
+    implementation libCore.dagger.dagger
+
+    implementation libCore.rx.rxJava
+    implementation libCore.rx.rxAndroid
+    implementation(libCore.rx.rxPermission) { transitive = true }
+
+    def lib = rootProject.ext.appDependencies
+    implementation lib.external.glide
+    implementation lib.external.lottie
+
+    /* tests */
+    testImplementation lib.unitTest.kotlin
+    testImplementation lib.unitTest.mockito
+    testImplementation lib.unitTest.jUnit
+    testImplementation lib.unitTest.spek
+    testImplementation lib.unitTest.hamk
+
+    androidTestImplementation lib.uiTest.espressoCore
+    androidTestImplementation lib.uiTest.espressoIntent
+    androidTestImplementation lib.uiTest.supportRules
+    androidTestImplementation lib.uiTest.supportRunner
+}
+
+// prevent the "superClassName is empty" error for classes not annotated as tests
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
+}

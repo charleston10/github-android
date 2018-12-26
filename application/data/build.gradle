@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def config = rootProject.ext
+
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionName config.versionName
+        testApplicationId config.applicationTestId
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':domain')
+
+    def libCore = rootProject.ext.coreDependencies
+    def libData = rootProject.ext.dataDependencies
+
+    implementation libCore.kotlin
+
+    //network
+    api libData.retrofit
+    api libData.retrofitConverter
+    api libData.retrofitAdapter
+    api libData.okHttpLogger
+    implementation libCore.google.gson
+
+    //dagger
+    implementation libCore.dagger.dagger
+    implementation libCore.dagger.daggerAndroid
+    implementation libCore.dagger.daggerSupport
+    kapt libCore.dagger.daggerCompiler
+    kapt libCore.dagger.daggerProcessor
+
+    //rx
+    implementation libCore.rx.rxJava
+    implementation libCore.rx.rxAndroid
+}

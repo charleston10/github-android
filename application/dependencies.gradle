@@ -1,0 +1,101 @@
+ext {
+    version = [
+            multidex        : '1.0.3',
+            supportLibrary  : '27.0.2',
+            constraintLayout: '1.0.2',
+            firebase        : '16.0.5',
+            firestore       : '17.1.3',
+            archKtx         : '1.0.0-alpha01',
+            arch            : '2.0.0-rc01',
+            espresso        : '3.0.2',
+            supportTest     : '1.0.2',
+            dagger          : '2.15',
+            okHttp          : '3.8.0',
+            retrofit        : '2.5.0'
+    ]
+
+    coreDependencies = [
+            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}",
+            databinding: "androidx.databinding:databinding-compiler:3.2.",
+            billing    : "com.android.billingclient:billing:1.0",
+            kodein     : "org.kodein.di:kodein-di-generic-jvm:6.0.0",
+            monitoring : [
+                    crashlytics: "com.crashlytics.sdk.android:crashlytics:2.9.1@aar",
+                    timber     : "com.jakewharton.timber:timber:4.7.1",
+                    amplitude  : "com.amplitude:android-sdk:2.16.0",
+                    hockeyApp  : "net.hockeyapp.android:HockeySDK:5.1.0"
+            ],
+            firebase   : [
+                    core        : "com.google.firebase:firebase-core:${version.firebase}",
+                    firestore   : "com.google.firebase:firebase-firestore:${version.firestore}",
+                    crash       : "com.google.firebase:firebase-crash:16.2.1",
+                    remoteConfig: "com.google.firebase:firebase-config:16.0.1",
+                    config      : "com.google.firebase:firebase-config:16.1.0",
+                    analytics   : "com.google.firebase:firebase-analytics-impl:16.2.3"
+            ],
+            arch       : [
+                    archNavigationFragment: "android.arch.navigation:navigation-fragment-ktx:${version.archKtx}",
+                    archNavigationUi      : "android.arch.navigation:navigation-ui-ktx:${version.archKtx}",
+
+                    archRuntime           : "androidx.lifecycle:lifecycle-runtime:${version.arch}",
+                    archExtensions        : "androidx.lifecycle:lifecycle-extensions:${version.arch}",
+                    archCompiler          : "androidx.lifecycle:lifecycle-common-java8:${version.arch}",
+                    archCore              : "androidx.core:core-ktx:1.0.0",
+                    archConstraintLayout  : "androidx.constraintlayout:constraintlayout:1.1.3"
+            ],
+            rx         : [
+                    rxJava      : "io.reactivex.rxjava2:rxjava:2.1.5",
+                    rxAndroid   : "io.reactivex.rxjava2:rxandroid:2.0.1",
+                    rxPermission: "com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar"
+            ],
+            google     : [
+                    gson           : "com.google.code.gson:gson:2.8.5",
+                    measurementApi : "com.google.android.gms:play-services-measurement-api:16.0.3",
+                    measurementBase: "com.google.android.gms:play-services-measurement-base:16.0.4",
+                    material       : "com.google.android.material:material:1.1.0-alpha02"
+            ],
+            dagger     : [
+                    daggerAndroid  : "com.google.dagger:dagger-android:${version.dagger}",
+                    daggerSupport  : "com.google.dagger:dagger-android-support:${version.dagger}",
+                    daggerProcessor: "com.google.dagger:dagger-android-processor:${version.dagger}",
+                    daggerCompiler : "com.google.dagger:dagger-compiler:${version.dagger}",
+                    dagger         : "com.google.dagger:dagger:${version.dagger}",
+            ]
+    ]
+
+    appDependencies = [
+            external: [
+                    glide                         : "com.github.bumptech.glide:glide:4.8.0",
+                    picasso                       : 'com.squareup.picasso:picasso:2.71828',
+                    materialDrawer                : 'com.mikepenz:materialdrawer:6.0.4@aar',
+                    jakeViewPagerIndicator        : "com.github.JakeWharton:ViewPagerIndicator:2.4.1",
+                    romandanylykViewPagerIndicator: "com.romandanylyk:pageindicatorview:1.0.2@aar",
+                    webView                       : "com.github.hzw1199:AwesomeWebView-Android:1.2",
+                    commons                       : "commons-io:commons-io:2.4",
+                    bottomSheet                   : "com.github.rubensousa:bottomsheetbuilder:1.6.1",
+                    "lottie"                      : "com.airbnb.android:lottie:2.8.0"
+
+            ],
+            uiTest  : [
+                    espressoCore  : "com.android.support.test.espresso:espresso-core:${version.espresso}",
+                    espressoIntent: "com.android.support.test.espresso:espresso-intents:${version.espresso}",
+                    supportRules  : "com.android.support.test:rules:${version.supportTest}",
+                    supportRunner : "com.android.support.test:runner:${version.supportTest}"
+            ],
+            unitTest: [
+                    kotlin : "org.jetbrains.kotlin:kotlin-test:${kotlin_version}",
+                    mockito: "com.nhaarman:mockito-kotlin:0.7.0",
+                    jUnit  : "junit:junit:4.12",
+                    spek   : "org.jetbrains.spek:spek:1.0.25",
+                    hamk   : "com.natpryce:hamkrest:1.2.3.0"
+            ]
+    ]
+
+    dataDependencies = [
+            okHttp           : "com.squareup.okhttp3:okhttp:${version.okHttp}",
+            okHttpLogger     : "com.squareup.okhttp3:logging-interceptor:${version.okHttp}",
+            retrofit         : "com.squareup.retrofit2:retrofit:${version.retrofit}",
+            retrofitConverter: "com.squareup.retrofit2:converter-gson:${version.retrofit}",
+            retrofitAdapter  : "com.squareup.retrofit2:adapter-rxjava2:${version.retrofit}"
+    ]
+}
