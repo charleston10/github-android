@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.charleston.core.base.BaseFragment
+import br.com.charleston.domain.model.GithubModel
 import br.com.charleston.github.R
 import br.com.charleston.github.databinding.FragmentVoiceSearchBinding
+import br.com.charleston.github.extensions.disable
+import br.com.charleston.github.extensions.enable
 import br.com.charleston.github.extensions.typeWriter
 import br.com.charleston.github.features.voicesearch.states.SearchState
 import br.com.charleston.github.features.voicesearch.viewmodel.VoiceSearchViewModel
@@ -113,10 +116,25 @@ class VoiceSearchFragment
 
     private fun renderSearchState(state: SearchState) {
         when (state) {
-            is SearchState.Listening -> playSpeech()
-            is SearchState.Error -> handlerError(state.error)
-            is SearchState.Success -> stopSpeech()
-            is SearchState.Loading -> searching(state.searchingByText)
+            is SearchState.Listening -> {
+                playSpeech()
+            }
+            is SearchState.Success -> {
+                showResults(state.data)
+                enableSearch()
+            }
+            is SearchState.Loading -> {
+                disableSearch()
+                searching(state.searchingByText)
+            }
+            is SearchState.NoResult -> {
+                showErrorNoResult()
+                enableSearch()
+            }
+            is SearchState.Error -> {
+                showError(state.error)
+                enableSearch()
+            }
         }
     }
 
@@ -139,14 +157,26 @@ class VoiceSearchFragment
 
     private fun stopSpeech() {
         speech.stopListening()
+        cancelAnimation()
+    }
+
+    private fun cancelSpeech() {
+        if (speech != null) {
+            speech.cancel()
+            cancelAnimation()
+            resetMessage()
+        }
+    }
+
+    private fun showResults(items: List<GithubModel>) {
+
+    }
+
+    private fun cancelAnimation() {
         getViewDataBinding().voice.run {
             frame = 0
             cancelAnimation()
         }
-    }
-
-    private fun cancelSpeech() {
-        if (speech != null) speech.cancel()
     }
 
     private fun speechIntent(): Intent {
@@ -174,11 +204,6 @@ class VoiceSearchFragment
         }
     }
 
-    private fun handlerError(throwable: Throwable) {
-        stopSpeech()
-        Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
-    }
-
     private fun handlerPermissionError() {
         getViewDataBinding().run {
             message.typeWriter("Record audio was declined for search", 10)
@@ -186,8 +211,23 @@ class VoiceSearchFragment
         }
     }
 
-    private fun resetMessage(){
-        getViewDataBinding().message.text = "Find new code repositories.\n" +
-                "Now you can do voice search anywhere."
+    private fun resetMessage() {
+        getViewDataBinding().message.text = "Find new code repositories.\nNow you can do voice search anywhere."
+    }
+
+    private fun showErrorNoResult() {
+        getViewDataBinding().message.text = "Could not find repository.\nTry a new search."
+    }
+
+    private fun showError(throwable: Throwable) {
+        Toast.makeText(context, throwable.message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun disableSearch() {
+        getViewDataBinding().voice.disable()
+    }
+
+    private fun enableSearch() {
+        getViewDataBinding().voice.enable()
     }
 }

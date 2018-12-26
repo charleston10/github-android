@@ -47,7 +47,7 @@ class VoiceSearchViewModel @Inject constructor(
             }
 
             override fun onNext(t: List<GithubModel>) {
-                searchObservable.postValue(SearchState.Success(t))
+                handlerSuccess(t)
             }
 
             override fun onError(exception: Throwable) {
@@ -55,5 +55,13 @@ class VoiceSearchViewModel @Inject constructor(
                 searchObservable.postValue(SearchState.Error(exception))
             }
         }, text)
+    }
+
+    private fun handlerSuccess(items: List<GithubModel>) {
+        if (items.isNotEmpty()) {
+            searchObservable.postValue(SearchState.Success(items))
+        } else {
+            searchObservable.postValue(SearchState.NoResult)
+        }
     }
 }
