@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/navigation_main" app:startDestination="@id/voiceSearchFragment">
 
-    <fragment android:id="@+id/voiceSearchFragment" android:name="br.com.charleston.github.VoiceSearchFragment"
+    <fragment android:id="@+id/voiceSearchFragment" android:name="br.com.charleston.github.features.voicesearch.screens.VoiceSearchFragment"
               android:label="VoiceSearchFragment"
               tools:layout="@layout/fragment_voice_search"/>
 </navigation>
