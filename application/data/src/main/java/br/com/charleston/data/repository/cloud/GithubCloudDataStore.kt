@@ -13,10 +13,9 @@ class GithubCloudDataStore(
     override fun getRepositories(name: String): Observable<List<GithubModel>> {
         return api.getRepositories(
             name = name,
-            visibility = "public",
-            type = "sources"
-        ).map { list ->
-            list.map { item -> mapper.transform(item) }
+            sort = "stars"
+        ).map { data ->
+            data.items.map { item -> mapper.transform(item) }
         }
     }
 }

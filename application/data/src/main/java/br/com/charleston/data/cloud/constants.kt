@@ -4,14 +4,12 @@ const val USER_AGENT_INTERCEPTOR = "USER_AGENT_INTERCEPTOR"
 const val RESPONSE_INTERCEPTOR = "RESPONSE_INTERCEPTOR"
 const val URL_DOMAIN = "URL_DOMAIN"
 
-const val QUERY_REPO_NAME = "name"
+/**
+ * Required. The search keywords, as well as any qualifiers.
+ */
+const val QUERY_REPO_NAME = "q"
 
 /**
- * Can be one of all, public, or private. Default: all
+ * The sort field. One of stars, forks, or updated. Default: results are sorted by best match.
  */
-const val QUERY_REPO_VISIBILITY = "visibility"
-
-/**
- * Can be one of all, public, private, forks, sources, member. Default: all
- */
-const val QUERY_REPO_TYPE = "type"
+const val QUERY_REPO_SORT = "sort"

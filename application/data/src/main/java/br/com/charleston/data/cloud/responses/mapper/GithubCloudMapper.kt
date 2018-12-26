@@ -22,8 +22,8 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
     private inner class UserMapper : Mapper<UserResponse, UserModel> {
         override fun transform(entity: UserResponse): UserModel {
             return UserModel(
-                entity.name,
-                entity.avatarUrl
+                name = entity.name,
+                avatarUrl = entity.avatarUrl
             )
         }
     }
