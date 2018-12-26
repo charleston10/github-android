@@ -15,7 +15,6 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
         return GithubModel(
             name = entity.name,
             fullName = entity.fullName,
-            tags = entity.tags,
             user = userMapper.get()!!.transform(entity.owner)
         )
     }
@@ -24,7 +23,7 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
         override fun transform(entity: UserResponse): UserModel {
             return UserModel(
                 entity.name,
-                entity.urlAvatar
+                entity.avatarUrl
             )
         }
     }

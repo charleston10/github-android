@@ -15,5 +15,5 @@ interface GithubApi {
         @Query(QUERY_REPO_NAME) name: String,
         @Query(QUERY_REPO_VISIBILITY) visibility: String,
         @Query(QUERY_REPO_TYPE) type: String
-    ): Observable<GithubResponse>
+    ): Observable<List<GithubResponse>>
 }

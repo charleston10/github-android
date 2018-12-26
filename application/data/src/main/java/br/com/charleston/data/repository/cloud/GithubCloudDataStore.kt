@@ -10,13 +10,13 @@ class GithubCloudDataStore(
     private val mapper: GithubCloudMapper
 ) : IGithubCloudDataStore {
 
-    override fun getRepositories(name: String): Observable<GithubModel> {
+    override fun getRepositories(name: String): Observable<List<GithubModel>> {
         return api.getRepositories(
             name = name,
             visibility = "public",
             type = "sources"
-        ).map {
-            mapper.transform(it)
+        ).map { list ->
+            list.map { item -> mapper.transform(item) }
         }
     }
 }

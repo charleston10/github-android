@@ -3,8 +3,10 @@ package br.com.charleston.github.features.voicesearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.charleston.core.base.BaseViewModel
+import br.com.charleston.domain.DefaultObserver
+import br.com.charleston.domain.interactor.GetRepositories
+import br.com.charleston.domain.model.GithubModel
 import br.com.charleston.github.features.voicesearch.states.SearchState
-import com.tbruyelle.rxpermissions2.RxPermissions
 import javax.inject.Inject
 
 interface InputVoiceSearchViewModel {
@@ -22,7 +24,7 @@ interface ContractVoiceSearchViewModel {
 }
 
 class VoiceSearchViewModel @Inject constructor(
-
+    private val getRepositories: GetRepositories
 ) : BaseViewModel(),
     ContractVoiceSearchViewModel,
     InputVoiceSearchViewModel,
@@ -39,6 +41,19 @@ class VoiceSearchViewModel @Inject constructor(
     }
 
     override fun search(text: String) {
-        searchObservable.postValue(SearchState.Loading(text))
+        getRepositories.execute(object : DefaultObserver<List<GithubModel>>() {
+            override fun onStart() {
+                searchObservable.postValue(SearchState.Loading(text))
+            }
+
+            override fun onNext(t: List<GithubModel>) {
+                searchObservable.postValue(SearchState.Success(t))
+            }
+
+            override fun onError(exception: Throwable) {
+                super.onError(exception)
+                searchObservable.postValue(SearchState.Error(exception))
+            }
+        }, text)
     }
 }

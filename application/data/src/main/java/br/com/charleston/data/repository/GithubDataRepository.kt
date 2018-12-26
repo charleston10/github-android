@@ -9,7 +9,7 @@ class GithubDataRepository(
     private val cloudDataStore: GithubCloudDataStore
 ) : IGithubRepository {
 
-    override fun getRepositories(name: String): Observable<GithubModel> {
+    override fun getRepositories(name: String): Observable<List<GithubModel>> {
         return cloudDataStore.getRepositories(name)
     }
 }
