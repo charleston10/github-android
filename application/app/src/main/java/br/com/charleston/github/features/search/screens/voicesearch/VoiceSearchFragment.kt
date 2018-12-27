@@ -1,4 +1,4 @@
-package br.com.charleston.github.features.voicesearch.screens
+package br.com.charleston.github.features.search.screens.voicesearch
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import br.com.charleston.core.base.BaseFragment
 import br.com.charleston.domain.model.GithubModel
 import br.com.charleston.github.R
@@ -18,8 +19,8 @@ import br.com.charleston.github.databinding.FragmentVoiceSearchBinding
 import br.com.charleston.github.extensions.disable
 import br.com.charleston.github.extensions.enable
 import br.com.charleston.github.extensions.typeWriter
-import br.com.charleston.github.features.voicesearch.states.SearchState
-import br.com.charleston.github.features.voicesearch.viewmodel.VoiceSearchViewModel
+import br.com.charleston.github.features.search.states.SearchState
+import br.com.charleston.github.features.search.viewmodel.VoiceSearchViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 
@@ -45,11 +46,6 @@ class VoiceSearchFragment
         super.onViewCreated(view, savedInstanceState)
         observerViewModel()
         bindView()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        cancelSpeech()
     }
 
     override fun onStop() {
@@ -120,7 +116,7 @@ class VoiceSearchFragment
                 playSpeech()
             }
             is SearchState.Success -> {
-                showResults(state.data)
+                startListResult(state.data)
                 enableSearch()
             }
             is SearchState.Loading -> {
@@ -140,7 +136,12 @@ class VoiceSearchFragment
 
     private fun searching(text: String?) {
         val searchingText = text!!.toUpperCase()
-        getViewDataBinding().message.typeWriter("Searching repository by\n$searchingText")
+        getViewDataBinding().message.typeWriter(
+            String.format(
+                getString(R.string.voice_search_message_find_repository_by),
+                searchingText
+            )
+        )
     }
 
     private fun search(text: String) {
@@ -149,7 +150,7 @@ class VoiceSearchFragment
 
     private fun playSpeech() {
         getViewDataBinding().run {
-            message.typeWriter("Listening...")
+            message.typeWriter(getString(R.string.voice_search_message_listening))
             voice.playAnimation()
         }
         speech.startListening(speechIntent())
@@ -168,8 +169,11 @@ class VoiceSearchFragment
         }
     }
 
-    private fun showResults(items: List<GithubModel>) {
+    private fun startListResult(items: List<GithubModel>) {
+        val action = VoiceSearchFragmentDirections
+            .ActionVoiceSearchFragmentToListFragment(items.toTypedArray())
 
+        Navigation.findNavController(view!!).navigate(action)
     }
 
     private fun cancelAnimation() {
@@ -181,11 +185,17 @@ class VoiceSearchFragment
 
     private fun speechIntent(): Intent {
         return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, LANGUAGE_PREFERENCE)
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                LANGUAGE_PREFERENCE
+            )
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, MAX_RESULT)
+            putExtra(
+                RecognizerIntent.EXTRA_MAX_RESULTS,
+                MAX_RESULT
+            )
         }
     }
 
@@ -206,17 +216,17 @@ class VoiceSearchFragment
 
     private fun handlerPermissionError() {
         getViewDataBinding().run {
-            message.typeWriter("Record audio was declined for search", 10)
+            message.typeWriter(getString(R.string.voice_search_message_permission_error), 10)
             voice.visibility = View.GONE
         }
     }
 
     private fun resetMessage() {
-        getViewDataBinding().message.text = "Find new code repositories.\nNow you can do voice search anywhere."
+        getViewDataBinding().message.text = getString(R.string.voice_search_message_inital)
     }
 
     private fun showErrorNoResult() {
-        getViewDataBinding().message.text = "Could not find repository.\nTry a new search."
+        getViewDataBinding().message.text = getString(R.string.voice_search_message_no_result)
     }
 
     private fun showError(throwable: Throwable) {

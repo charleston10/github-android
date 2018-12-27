@@ -1,4 +1,4 @@
-package br.com.charleston.github.features.voicesearch.viewmodel
+package br.com.charleston.github.features.search.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import br.com.charleston.core.base.BaseViewModel
 import br.com.charleston.domain.DefaultObserver
 import br.com.charleston.domain.interactor.GetRepositories
 import br.com.charleston.domain.model.GithubModel
-import br.com.charleston.github.features.voicesearch.states.SearchState
+import br.com.charleston.github.features.search.states.SearchState
 import javax.inject.Inject
 
 interface InputVoiceSearchViewModel {

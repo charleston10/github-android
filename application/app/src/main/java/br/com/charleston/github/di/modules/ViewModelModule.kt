@@ -2,7 +2,7 @@ package br.com.charleston.github.di.modules
 
 import androidx.lifecycle.ViewModel
 import br.com.charleston.core.viewmodel.ViewModelKey
-import br.com.charleston.github.features.voicesearch.viewmodel.VoiceSearchViewModel
+import br.com.charleston.github.features.search.viewmodel.VoiceSearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

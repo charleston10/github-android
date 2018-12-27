@@ -1,4 +1,4 @@
-package br.com.charleston.github.features.voicesearch.states
+package br.com.charleston.github.features.search.states
 
 import br.com.charleston.domain.model.GithubModel
 

@@ -1,6 +1,7 @@
 package br.com.charleston.github.di.modules
 
-import br.com.charleston.github.features.voicesearch.screens.VoiceSearchFragment
+import br.com.charleston.github.features.search.screens.list.ListFragment
+import br.com.charleston.github.features.search.screens.voicesearch.VoiceSearchFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,4 +10,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun voiceSearchFragment(): VoiceSearchFragment
+
+    @ContributesAndroidInjector
+    abstract fun listFragment(): ListFragment
 }

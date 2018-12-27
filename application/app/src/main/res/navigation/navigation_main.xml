@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/navigation_main" app:startDestination="@id/voiceSearchFragment">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/navigation_main"
+            app:startDestination="@id/voiceSearchFragment">
 
-    <fragment android:id="@+id/voiceSearchFragment" android:name="br.com.charleston.github.features.voicesearch.screens.VoiceSearchFragment"
-              android:label="VoiceSearchFragment"
-              tools:layout="@layout/fragment_voice_search"/>
+    <fragment
+            android:id="@+id/voiceSearchFragment"
+            android:name="br.com.charleston.github.features.search.screens.voicesearch.VoiceSearchFragment"
+            android:label="VoiceSearchFragment"
+            tools:layout="@layout/fragment_voice_search">
+        <action
+                android:id="@+id/action_voiceSearchFragment_to_listFragment"
+                app:destination="@id/listFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+            android:id="@+id/listFragment"
+            android:name="br.com.charleston.github.features.search.screens.list.ListFragment"
+            android:label="ListFragment"
+            tools:layout="@layout/fragment_list">
+        <argument android:name="items" app:argType="br.com.charleston.domain.model.GithubModel[]"/>
+    </fragment>
 </navigation>
