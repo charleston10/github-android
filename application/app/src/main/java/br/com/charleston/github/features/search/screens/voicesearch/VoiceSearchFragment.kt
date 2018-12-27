@@ -31,11 +31,7 @@ class VoiceSearchFragment
 
     private var items: List<GithubModel> = arrayListOf()
 
-    private val speech by lazy {
-        SpeechRecognizer.createSpeechRecognizer(context).apply {
-            setRecognitionListener(this@VoiceSearchFragment)
-        }
-    }
+    private lateinit var speech: SpeechRecognizer
 
     private val rxPermissions by lazy { RxPermissions(activity!!) }
 
@@ -48,6 +44,7 @@ class VoiceSearchFragment
         super.onViewCreated(view, savedInstanceState)
         observerViewModel()
         bindView()
+        bindSpeech()
     }
 
     override fun onStop() {
@@ -78,8 +75,6 @@ class VoiceSearchFragment
     }
 
     override fun onError(error: Int) {
-        val errorMessage = getErrorSpeech(error)
-        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         resetMessage()
     }
 
@@ -113,6 +108,12 @@ class VoiceSearchFragment
         getViewDataBinding().run {
             handlers = this@VoiceSearchFragment
             showResult = false
+        }
+    }
+
+    private fun bindSpeech(){
+        speech = SpeechRecognizer.createSpeechRecognizer(context).apply {
+            setRecognitionListener(this@VoiceSearchFragment)
         }
     }
 
@@ -224,21 +225,6 @@ class VoiceSearchFragment
                     RecognizerIntent.EXTRA_MAX_RESULTS,
                     MAX_RESULT
             )
-        }
-    }
-
-    private fun getErrorSpeech(errorCode: Int): String {
-        return when (errorCode) {
-            SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
-            SpeechRecognizer.ERROR_CLIENT -> "Client side error"
-            SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
-            SpeechRecognizer.ERROR_NETWORK -> "Network error"
-            SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
-            SpeechRecognizer.ERROR_NO_MATCH -> "No match"
-            SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
-            SpeechRecognizer.ERROR_SERVER -> "error from server"
-            SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
-            else -> "Didn't understand, please try again."
         }
     }
 
