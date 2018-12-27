@@ -5,7 +5,7 @@ ext {
             constraintLayout: '1.0.2',
             firebase        : '16.0.5',
             firestore       : '17.1.3',
-            archKtx         : '1.0.0-alpha01',
+            archKtx         : '1.0.0-alpha09',
             arch            : '2.0.0-rc01',
             espresso        : '3.0.2',
             supportTest     : '1.0.2',
@@ -34,8 +34,8 @@ ext {
                     analytics   : "com.google.firebase:firebase-analytics-impl:16.2.3"
             ],
             arch       : [
-                    archNavigationFragment: "android.arch.navigation:navigation-fragment-ktx:${version.archKtx}",
-                    archNavigationUi      : "android.arch.navigation:navigation-ui-ktx:${version.archKtx}",
+                    archNavigationFragment: "android.arch.navigation:navigation-fragment:${version.archKtx}",
+                    archNavigationUi      : "android.arch.navigation:navigation-ui:${version.archKtx}",
 
                     archRuntime           : "androidx.lifecycle:lifecycle-runtime:${version.arch}",
                     archExtensions        : "androidx.lifecycle:lifecycle-extensions:${version.arch}",
