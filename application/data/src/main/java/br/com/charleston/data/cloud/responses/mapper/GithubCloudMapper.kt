@@ -15,6 +15,7 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
         return GithubModel(
             name = entity.name,
             fullName = entity.fullName,
+            private = renderPrivateDescription(entity.private),
             user = userMapper.get()!!.transform(entity.owner)
         )
     }
@@ -26,5 +27,9 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
                 avatarUrl = entity.avatarUrl
             )
         }
+    }
+
+    private fun renderPrivateDescription(isPrivate: Boolean): String {
+        return if (isPrivate) "privado" else "público"
     }
 }
