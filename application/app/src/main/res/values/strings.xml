@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Github</string>
+    <string name="voice_search_message_listening">Listening...</string>
+    <string name="voice_search_message_permission_error">Record audio was declined for search</string>
+    <string name="voice_search_message_inital">Find new code repositories.\nNow you can do voice search anywhere.
+    </string>
+    <string name="voice_search_message_no_result">Could not find repository.\nTry a new search.</string>
+    <string name="voice_search_message_find_repository_by">Searching repository by\n%s</string>
+    <string name="list_title">Repositórios</string>
 </resources>
