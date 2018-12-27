@@ -26,8 +26,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 
 class VoiceSearchFragment
     : BaseFragment<FragmentVoiceSearchBinding, VoiceSearchViewModel>(),
-    RecognitionListener,
-    VoiceSearchHandler {
+        RecognitionListener,
+        VoiceSearchHandler {
+
+    private var items: List<GithubModel> = arrayListOf()
 
     private val speech by lazy {
         SpeechRecognizer.createSpeechRecognizer(context).apply {
@@ -51,6 +53,7 @@ class VoiceSearchFragment
     override fun onStop() {
         super.onStop()
         cancelSpeech()
+        getViewDataBinding().showResult = false
     }
 
     override fun getLayoutId(): Int {
@@ -59,8 +62,8 @@ class VoiceSearchFragment
 
     override fun getViewModel(): VoiceSearchViewModel {
         return ViewModelProviders
-            .of(this, viewModelFactory)
-            .get(VoiceSearchViewModel::class.java)
+                .of(this, viewModelFactory)
+                .get(VoiceSearchViewModel::class.java)
     }
 
     override fun onReadyForSpeech(params: Bundle?) {}
@@ -88,25 +91,37 @@ class VoiceSearchFragment
     @SuppressLint("CheckResult")
     override fun onSearchStart() {
         rxPermissions
-            .request(Manifest.permission.RECORD_AUDIO)
-            .subscribe { granted ->
-                when {
-                    granted -> getViewModel().input.listen()
-                    else -> handlerPermissionError()
+                .request(Manifest.permission.RECORD_AUDIO)
+                .subscribe { granted ->
+                    when {
+                        granted -> getViewModel().input.listen()
+                        else -> handlerPermissionError()
+                    }
                 }
-            }
+    }
+
+    override fun onCancelResult() {
+        getViewDataBinding().showResult = false
+        resetMessage()
+    }
+
+    override fun onShowResult(view: View) {
+        startListResult()
     }
 
     private fun bindView() {
-        getViewDataBinding().handlers = this
+        getViewDataBinding().run {
+            handlers = this@VoiceSearchFragment
+            showResult = false
+        }
     }
 
     private fun observerViewModel() {
         getViewModel().output.run {
             search.observe(this@VoiceSearchFragment,
-                Observer {
-                    renderSearchState(it)
-                })
+                    Observer {
+                        renderSearchState(it)
+                    })
         }
     }
 
@@ -116,12 +131,14 @@ class VoiceSearchFragment
                 playSpeech()
             }
             is SearchState.Success -> {
-                startListResult(state.data)
+                setList(state.data)
                 enableSearch()
+                getViewDataBinding().showResult = true
+                bindMessageResult(state.searchingByText)
             }
             is SearchState.Loading -> {
                 disableSearch()
-                searching(state.searchingByText)
+                bindMessageSearching(state.searchingByText)
             }
             is SearchState.NoResult -> {
                 showErrorNoResult()
@@ -134,13 +151,20 @@ class VoiceSearchFragment
         }
     }
 
-    private fun searching(text: String?) {
-        val searchingText = text!!.toUpperCase()
+    private fun bindMessageSearching(value: String?) {
+        bindMessage(value, getString(R.string.voice_search_message_find_repository_by))
+    }
+
+    private fun bindMessageResult(value: String) {
+        bindMessage(value, getString(R.string.voice_search_message_result_repository_by))
+    }
+
+    private fun bindMessage(value: String?, message: String) {
         getViewDataBinding().message.typeWriter(
-            String.format(
-                getString(R.string.voice_search_message_find_repository_by),
-                searchingText
-            )
+                String.format(
+                        message,
+                        value!!.toUpperCase()
+                )
         )
     }
 
@@ -169,9 +193,13 @@ class VoiceSearchFragment
         }
     }
 
-    private fun startListResult(items: List<GithubModel>) {
+    private fun setList(items: List<GithubModel>) {
+        this.items = items
+    }
+
+    private fun startListResult() {
         val action = VoiceSearchFragmentDirections
-            .ActionVoiceSearchFragmentToListFragment(items.toTypedArray())
+                .ActionVoiceSearchFragmentToListFragment(items.toTypedArray())
 
         Navigation.findNavController(view!!).navigate(action)
     }
@@ -186,15 +214,15 @@ class VoiceSearchFragment
     private fun speechIntent(): Intent {
         return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                LANGUAGE_PREFERENCE
+                    RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                    LANGUAGE_PREFERENCE
             )
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
             putExtra(
-                RecognizerIntent.EXTRA_MAX_RESULTS,
-                MAX_RESULT
+                    RecognizerIntent.EXTRA_MAX_RESULTS,
+                    MAX_RESULT
             )
         }
     }
