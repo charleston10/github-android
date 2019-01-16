@@ -3,6 +3,7 @@ package br.com.charleston.github
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -17,14 +18,15 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-class AndroidApplication : Application(),
+open class AndroidApplication : Application(),
     HasActivityInjector,
     Application.ActivityLifecycleCallbacks {
 
     @Inject
     lateinit var dispatchingActivityAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    private lateinit var appComponent: AppComponent
+    @set:VisibleForTesting
+    lateinit var appComponent: AppComponent
 
     init {
         registerActivityLifecycleCallbacks(this)
@@ -44,7 +46,7 @@ class AndroidApplication : Application(),
     override fun onActivitySaveInstanceState(p0: Activity?, p1: Bundle?) {}
     override fun onActivityStopped(p0: Activity?) {}
 
-    private fun createComponent(): AppComponent {
+    open fun createComponent(): AppComponent {
         val dagger = DaggerAppComponent
             .builder()
             .application(this)

@@ -19,6 +19,7 @@ ext {
             databinding: "androidx.databinding:databinding-compiler:3.2.",
             billing    : "com.android.billingclient:billing:1.0",
             kodein     : "org.kodein.di:kodein-di-generic-jvm:6.0.0",
+            commonsIo  : "commons-io:commons-io:2.4",
             monitoring : [
                     crashlytics: "com.crashlytics.sdk.android:crashlytics:2.9.1@aar",
                     timber     : "com.jakewharton.timber:timber:4.7.1",
@@ -80,7 +81,8 @@ ext {
                     espressoCore  : "com.android.support.test.espresso:espresso-core:${version.espresso}",
                     espressoIntent: "com.android.support.test.espresso:espresso-intents:${version.espresso}",
                     supportRules  : "com.android.support.test:rules:${version.supportTest}",
-                    supportRunner : "com.android.support.test:runner:${version.supportTest}"
+                    supportRunner : "com.android.support.test:runner:${version.supportTest}",
+                    mockServer    : "com.squareup.okhttp3:mockwebserver:${version.okHttp}"
             ],
             unitTest: [
                     kotlin : "org.jetbrains.kotlin:kotlin-test:${kotlin_version}",

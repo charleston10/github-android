@@ -16,7 +16,7 @@ android {
         targetSdkVersion config.targetSdkVersion
         versionName config.versionName
         testApplicationId config.applicationTestId
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'br.com.charleston.github.runner.MockTestRunner'
     }
 
     buildTypes {
@@ -114,6 +114,7 @@ dependencies {
     androidTestImplementation lib.uiTest.espressoIntent
     androidTestImplementation lib.uiTest.supportRules
     androidTestImplementation lib.uiTest.supportRunner
+    androidTestImplementation lib.uiTest.mockServer
 }
 
 // prevent the "superClassName is empty" error for classes not annotated as tests

@@ -32,6 +32,7 @@ dependencies {
     def libData = rootProject.ext.dataDependencies
 
     implementation libCore.kotlin
+    implementation libCore.commonsIo
 
     //network
     api libData.retrofit
