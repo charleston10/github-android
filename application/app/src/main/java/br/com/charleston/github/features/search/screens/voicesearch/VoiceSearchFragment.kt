@@ -47,10 +47,15 @@ class VoiceSearchFragment
         bindSpeech()
     }
 
+    override fun onDestroy() {
+        speech.destroy()
+        super.onDestroy()
+    }
+
     override fun onStop() {
-        super.onStop()
         cancelSpeech()
         getViewDataBinding().showResult = false
+        super.onStop()
     }
 
     override fun getLayoutId(): Int {

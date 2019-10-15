@@ -82,7 +82,8 @@ ext {
                     espressoCore  : "com.android.support.test.espresso:espresso-core:${version.espresso}",
                     espressoIntent: "com.android.support.test.espresso:espresso-intents:${version.espresso}",
                     supportRules  : "com.android.support.test:rules:${version.supportTest}",
-                    supportRunner : "com.android.support.test:runner:${version.supportTest}"
+                    supportRunner : "com.android.support.test:runner:${version.supportTest}",
+                    mockServer    : "com.squareup.okhttp3:mockwebserver:${version.okHttp}"
             ],
             unitTest: [
                     kotlin : "org.jetbrains.kotlin:kotlin-test:${kotlin_version}",

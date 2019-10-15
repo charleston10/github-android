@@ -40,6 +40,8 @@ interface AppComponent {
         @BindsInstance
         fun application(application: Application): Builder
 
+        fun moduleUrlApi(module: UrlApiModule): Builder
+
         fun build(): AppComponent
     }
 
