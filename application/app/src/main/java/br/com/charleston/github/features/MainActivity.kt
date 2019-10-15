@@ -1,11 +1,12 @@
 package br.com.charleston.github.features
 
-import android.content.Intent
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import br.com.charleston.core.base.BaseActivity
 import br.com.charleston.core.base.BaseViewModel
 import br.com.charleston.github.R
 import br.com.charleston.github.databinding.ActivityMainBinding
+
 
 class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
 
@@ -19,7 +20,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
             .get(BaseViewModel::class.java)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

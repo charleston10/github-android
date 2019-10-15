@@ -10,4 +10,5 @@
     <string name="voice_search_message_result_repository_by">We found some results for\n%s</string>
 
     <string name="transition_detail_avatar">transition_detail_avatar</string>
+    <string name="detail_title">Detail</string>
 </resources>

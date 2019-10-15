@@ -9,6 +9,7 @@ import br.com.charleston.core.base.BaseViewModel
 import br.com.charleston.github.R
 import br.com.charleston.github.databinding.FragmentDetailBinding
 
+
 class DetailFragment : BaseFragment<FragmentDetailBinding, BaseViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,10 +38,13 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, BaseViewModel>() {
 
     private fun bindToolbar() {
         getViewDataBinding().toolbar.apply {
-            title = "Detail"
+            title = context.getString(R.string.detail_title)
         }
 
-        (activity as AppCompatActivity)
-            .setSupportActionBar(getViewDataBinding().toolbar)
+        (activity as AppCompatActivity).let {
+            it.setSupportActionBar(getViewDataBinding().toolbar)
+            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            it.supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
     }
 }

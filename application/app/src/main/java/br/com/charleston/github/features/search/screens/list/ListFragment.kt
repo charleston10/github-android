@@ -51,6 +51,9 @@ class ListFragment : BaseFragment<FragmentListBinding, BaseViewModel>(),
 
         (activity as AppCompatActivity)
             .setSupportActionBar(getViewDataBinding().toolbar)
+
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun bindItems() {
