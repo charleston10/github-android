@@ -45,8 +45,6 @@ class VoiceSearchFragment
         observerViewModel()
         bindView()
         bindSpeech()
-
-        search("charleston")
     }
 
     override fun onDestroy() {
