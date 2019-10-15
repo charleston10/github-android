@@ -13,10 +13,10 @@
         <action
                 android:id="@+id/action_voiceSearchFragment_to_listFragment"
                 app:destination="@id/listFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
             android:id="@+id/listFragment"
@@ -24,7 +24,11 @@
             android:label="ListFragment"
             tools:layout="@layout/fragment_list">
         <argument android:name="items" app:argType="br.com.charleston.domain.model.GithubModel[]"/>
-        <action android:id="@+id/action_listFragment_to_detailFragment" app:destination="@id/detailFragment"/>
+        <action android:id="@+id/action_listFragment_to_detailFragment" app:destination="@id/detailFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment android:id="@+id/detailFragment"
