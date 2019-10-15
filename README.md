@@ -45,6 +45,7 @@ And it also handles error handling if there is any failure to process the reques
 <table>  
   <th>Initial</th>
   <th>Listening</th>
+  <th>Searching</th>
 <tr>
 
 <td>
@@ -53,21 +54,25 @@ And it also handles error handling if there is any failure to process the reques
 <td>
    <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/device-2018-12-27-174416.png?raw=true"/>
   </td>
-</tr>
-</table>
-<table>
-  <th>Searching</th>
-  <th>Found</th>
-  <th>List</th>
-<tr>
-  <td>
+   <td>
     <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/device-2018-12-27-174430.png?raw=true"/>
   </td>
-<td>
-   <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/device-2018-12-27-174438.png?raw=true"/>
+</tr>
+</table>
+
+<table>
+  <th>Found</th>
+  <th>List</th>
+  <th>Detail</th>
+<tr>
+  <td>
+    <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/device-2018-12-27-174438.png?raw=true"/>
   </td>
 <td>
    <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/device-2018-12-27-174449.png?raw=true"/>
+  </td>
+<td>
+   <img src="https://github.com/charleston10/github-android/blob/master/assets/screens/detail.jpg?raw=true"/>
   </td>
 </tr>
 </table>
