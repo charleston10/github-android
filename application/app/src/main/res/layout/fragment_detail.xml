@@ -42,11 +42,12 @@
         <TextView
                 tools:text="Full Name"
                 android:text="@{model.fullName}"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintStart_toStartOf="@+id/textView4" android:layout_marginTop="4dp"/>
+                app:layout_constraintStart_toStartOf="@+id/textView4" android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
         <TextView
                 android:text="@{model.description}"
                 android:layout_width="wrap_content"
