@@ -6,6 +6,8 @@
     </string>
     <string name="voice_search_message_no_result">Could not find repository.\nTry a new search.</string>
     <string name="voice_search_message_find_repository_by">Searching repository by\n%s</string>
-    <string name="list_title">Repositórios</string>
+    <string name="list_title">Repositories</string>
     <string name="voice_search_message_result_repository_by">We found some results for\n%s</string>
+
+    <string name="transition_detail_avatar">transition_detail_avatar</string>
 </resources>

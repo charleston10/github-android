@@ -26,8 +26,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 
 class VoiceSearchFragment
     : BaseFragment<FragmentVoiceSearchBinding, VoiceSearchViewModel>(),
-        RecognitionListener,
-        VoiceSearchHandler {
+    RecognitionListener,
+    VoiceSearchHandler {
 
     private var items: List<GithubModel> = arrayListOf()
 
@@ -59,8 +59,8 @@ class VoiceSearchFragment
 
     override fun getViewModel(): VoiceSearchViewModel {
         return ViewModelProviders
-                .of(this, viewModelFactory)
-                .get(VoiceSearchViewModel::class.java)
+            .of(this, viewModelFactory)
+            .get(VoiceSearchViewModel::class.java)
     }
 
     override fun onReadyForSpeech(params: Bundle?) {}
@@ -80,19 +80,21 @@ class VoiceSearchFragment
 
     override fun onResults(results: Bundle?) {
         val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-        search(matches?.get(0)!!)
+        matches?.get(0)?.let {
+            search(it)
+        }
     }
 
     @SuppressLint("CheckResult")
     override fun onSearchStart() {
         rxPermissions
-                .request(Manifest.permission.RECORD_AUDIO)
-                .subscribe { granted ->
-                    when {
-                        granted -> getViewModel().input.listen()
-                        else -> handlerPermissionError()
-                    }
+            .request(Manifest.permission.RECORD_AUDIO)
+            .subscribe { granted ->
+                when {
+                    granted -> getViewModel().input.listen()
+                    else -> handlerPermissionError()
                 }
+            }
     }
 
     override fun onCancelResult() {
@@ -111,7 +113,7 @@ class VoiceSearchFragment
         }
     }
 
-    private fun bindSpeech(){
+    private fun bindSpeech() {
         speech = SpeechRecognizer.createSpeechRecognizer(context).apply {
             setRecognitionListener(this@VoiceSearchFragment)
         }
@@ -120,9 +122,9 @@ class VoiceSearchFragment
     private fun observerViewModel() {
         getViewModel().output.run {
             search.observe(this@VoiceSearchFragment,
-                    Observer {
-                        renderSearchState(it)
-                    })
+                Observer {
+                    renderSearchState(it)
+                })
         }
     }
 
@@ -162,10 +164,10 @@ class VoiceSearchFragment
 
     private fun bindMessage(value: String?, message: String) {
         getViewDataBinding().message.typeWriter(
-                String.format(
-                        message,
-                        value!!.toUpperCase()
-                )
+            String.format(
+                message,
+                value?.toUpperCase()
+            )
         )
     }
 
@@ -187,11 +189,9 @@ class VoiceSearchFragment
     }
 
     private fun cancelSpeech() {
-        if (speech != null) {
-            speech.cancel()
-            cancelAnimation()
-            resetMessage()
-        }
+        speech.cancel()
+        cancelAnimation()
+        resetMessage()
     }
 
     private fun setList(items: List<GithubModel>) {
@@ -199,10 +199,11 @@ class VoiceSearchFragment
     }
 
     private fun startListResult() {
-        val action = VoiceSearchFragmentDirections
-                .ActionVoiceSearchFragmentToListFragment(items.toTypedArray())
+        view?.let {
+            val action = VoiceSearchFragmentDirections.actionVoiceSearchFragmentToListFragment(items.toTypedArray())
 
-        Navigation.findNavController(view!!).navigate(action)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     private fun cancelAnimation() {
@@ -215,15 +216,15 @@ class VoiceSearchFragment
     private fun speechIntent(): Intent {
         return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                    LANGUAGE_PREFERENCE
+                RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                LANGUAGE_PREFERENCE
             )
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
             putExtra(
-                    RecognizerIntent.EXTRA_MAX_RESULTS,
-                    MAX_RESULT
+                RecognizerIntent.EXTRA_MAX_RESULTS,
+                MAX_RESULT
             )
         }
     }

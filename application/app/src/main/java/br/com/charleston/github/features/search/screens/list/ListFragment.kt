@@ -1,11 +1,11 @@
 package br.com.charleston.github.features.search.screens.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.charleston.core.base.BaseFragment
 import br.com.charleston.core.base.BaseViewModel
@@ -13,8 +13,10 @@ import br.com.charleston.domain.model.GithubModel
 import br.com.charleston.github.R
 import br.com.charleston.github.databinding.FragmentListBinding
 import br.com.charleston.github.features.search.adapters.GithubListAdapter
+import br.com.charleston.github.features.search.adapters.ListListener
 
-class ListFragment : BaseFragment<FragmentListBinding, BaseViewModel>() {
+class ListFragment : BaseFragment<FragmentListBinding, BaseViewModel>(),
+    ListListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,6 +34,16 @@ class ListFragment : BaseFragment<FragmentListBinding, BaseViewModel>() {
             .get(BaseViewModel::class.java)
     }
 
+    override fun onClickItem(githubModel: GithubModel, imageView: ImageView) {
+        view?.let {
+            val action = ListFragmentDirections.actionListFragmentToDetailFragment(githubModel)
+
+            Navigation
+                .findNavController(it)
+                .navigate(action)
+        }
+    }
+
     private fun bindToolbar() {
         getViewDataBinding().toolbar.apply {
             title = context.getString(R.string.list_title)
@@ -42,12 +54,12 @@ class ListFragment : BaseFragment<FragmentListBinding, BaseViewModel>() {
     }
 
     private fun bindItems() {
-        if (arguments != null) {
-            val safeArgs = ListFragmentArgs.fromBundle(arguments!!)
+        arguments?.let {
+            val safeArgs = ListFragmentArgs.fromBundle(it)
             val items = safeArgs.items
 
             getViewDataBinding().list.apply {
-                adapter = GithubListAdapter(items.toList())
+                adapter = GithubListAdapter(items.toList(), this@ListFragment)
                 layoutManager = LinearLayoutManager(context)
             }
         }

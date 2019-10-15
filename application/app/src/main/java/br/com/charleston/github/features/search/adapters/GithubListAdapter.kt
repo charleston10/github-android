@@ -8,15 +8,22 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import br.com.charleston.domain.model.GithubModel
 import br.com.charleston.github.R
+import br.com.charleston.github.databinding.ItemListBinding
 
 class GithubListAdapter(
-    private val items: List<GithubModel>
+    private val items: List<GithubModel>,
+    private val listener: ListListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<ViewDataBinding>(inflater, R.layout.item_list, parent, false)
-        return ListViewHolder(view)
+        return ListViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_list,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -30,12 +37,16 @@ class GithubListAdapter(
     }
 
     inner class ListViewHolder(
-        private val viewDataBinding: ViewDataBinding
+        private val viewDataBinding: ItemListBinding
     ) : RecyclerView.ViewHolder(viewDataBinding.root) {
 
         fun bind(data: GithubModel) {
             viewDataBinding.setVariable(BR.model, data)
             viewDataBinding.executePendingBindings()
+
+            viewDataBinding.root.setOnClickListener {
+                listener.onClickItem((data), viewDataBinding.imageView)
+            }
         }
     }
 }
