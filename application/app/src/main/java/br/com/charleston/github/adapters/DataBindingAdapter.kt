@@ -10,12 +10,14 @@ class DataBindingAdapter {
     companion object {
         @JvmStatic
         @BindingAdapter(value = ["url"], requireAll = false)
-        fun setImageUrl(view: ImageView, url: String) {
-            Glide
-                .with(view.context)
-                .load(url)
-                .apply(RequestOptions.circleCropTransform())
-                .into(view)
+        fun setImageUrl(view: ImageView, url: String?) {
+            url?.let {
+                Glide
+                    .with(view.context)
+                    .load(it)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(view)
+            }
         }
     }
 }
