@@ -16,7 +16,11 @@ class GithubCloudMapper : Mapper<GithubResponse, GithubModel> {
             name = entity.name,
             fullName = entity.fullName,
             private = renderPrivateDescription(entity.private),
-            user = userMapper.get()!!.transform(entity.owner)
+            user = userMapper.get()!!.transform(entity.owner),
+            language = entity.language,
+            description = entity.description,
+            forks = entity.forks,
+            stars = entity.stars
         )
     }
 

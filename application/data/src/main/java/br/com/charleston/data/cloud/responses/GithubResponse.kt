@@ -4,8 +4,12 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class GithubResponse(
-    @SerializedName("name") var name: String,
-    @SerializedName("full_name") var fullName: String,
-    @SerializedName("private") var private: Boolean,
-    @SerializedName("owner") var owner: UserResponse
+    @SerializedName("name") val name: String,
+    @SerializedName("full_name") val fullName: String,
+    @SerializedName("private") val private: Boolean,
+    @SerializedName("owner") val owner: UserResponse,
+    @SerializedName("description") val description: String?,
+    @SerializedName("stargazers_count") val stars: Int,
+    @SerializedName("watchers_count") val forks: Int,
+    @SerializedName("language") val language: String?
 ) : Serializable

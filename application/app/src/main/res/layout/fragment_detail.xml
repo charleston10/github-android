@@ -11,18 +11,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.Toolbar
+                android:elevation="4dp"
+                android:background="@color/white"
+                android:id="@+id/toolbar"
+                tools:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+        />
+
         <ImageView
                 app:url="@{model.user.avatarUrl}"
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="16dp"
                 android:transitionName="@string/transition_detail_avatar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars"/>
+                tools:srcCompat="@tools:sample/avatars" app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                android:layout_marginTop="16dp"/>
         <TextView
                 tools:text="Name"
                 android:text="@{model.name}"
@@ -37,6 +46,68 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:layout_constraintStart_toStartOf="@+id/textView4" android:layout_marginTop="8dp"/>
+                app:layout_constraintStart_toStartOf="@+id/textView4" android:layout_marginTop="4dp"/>
+        <TextView
+                android:text="@{model.description}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6" tools:text="Description"
+                app:layout_constraintTop_toBottomOf="@+id/textView10"
+                app:layout_constraintStart_toStartOf="@+id/textView10" android:layout_marginTop="4dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_star"
+                android:id="@+id/imageView2" app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="@+id/imageView3" android:layout_marginTop="8dp"/>
+        <TextView
+                app:bindInt="@{model.stars}"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9" app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2" tools:text="5"
+                android:layout_marginStart="4dp"/>
+        <TextView
+                app:bindInt="@{model.forks}"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView11"
+                tools:text="5"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/imageView4" android:layout_marginStart="4dp"/>
+        <TextView
+                android:text="Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_code_fork_symbol"
+                android:id="@+id/imageView4" app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2" android:layout_marginStart="16dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_code"
+                android:id="@+id/imageView5" app:layout_constraintStart_toEndOf="@+id/textView11"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4" android:layout_marginStart="16dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView12"
+                android:textStyle="bold"
+                android:text="@{model.language}"
+                app:layout_constraintTop_toTopOf="@+id/imageView5"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView5" android:layout_marginStart="4dp"
+                tools:text="HTML"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
