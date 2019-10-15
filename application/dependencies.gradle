@@ -5,13 +5,13 @@ ext {
             constraintLayout: '1.0.2',
             firebase        : '16.0.5',
             firestore       : '17.1.3',
-            archKtx         : '1.0.0-alpha09',
-            arch            : '2.0.0-rc01',
+            archKtx         : '1.0.0',
+            arch            : '2.2.0-beta01',
             espresso        : '3.0.2',
             supportTest     : '1.0.2',
-            dagger          : '2.15',
-            okHttp          : '3.8.0',
-            retrofit        : '2.5.0'
+            dagger          : '2.19',
+            okHttp          : '4.2.2',
+            retrofit        : '2.6.2'
     ]
 
     coreDependencies = [
@@ -19,6 +19,7 @@ ext {
             databinding: "androidx.databinding:databinding-compiler:3.2.",
             billing    : "com.android.billingclient:billing:1.0",
             kodein     : "org.kodein.di:kodein-di-generic-jvm:6.0.0",
+            commonsIo  : "commons-io:commons-io:2.4",
             monitoring : [
                     crashlytics: "com.crashlytics.sdk.android:crashlytics:2.9.1@aar",
                     timber     : "com.jakewharton.timber:timber:4.7.1",
@@ -34,14 +35,15 @@ ext {
                     analytics   : "com.google.firebase:firebase-analytics-impl:16.2.3"
             ],
             arch       : [
-                    archNavigationFragment: "android.arch.navigation:navigation-fragment:${version.archKtx}",
-                    archNavigationUi      : "android.arch.navigation:navigation-ui:${version.archKtx}",
+                    archNavigationFragment   : "android.arch.navigation:navigation-fragment:${version.archKtx}",
+                    archNavigationFragmentKtx: 'androidx.navigation:navigation-fragment-ktx:2.1.0-alpha05',
+                    archNavigationUi         : "android.arch.navigation:navigation-ui:${version.archKtx}",
 
-                    archRuntime           : "androidx.lifecycle:lifecycle-runtime:${version.arch}",
-                    archExtensions        : "androidx.lifecycle:lifecycle-extensions:${version.arch}",
-                    archCompiler          : "androidx.lifecycle:lifecycle-common-java8:${version.arch}",
-                    archCore              : "androidx.core:core-ktx:1.0.0",
-                    archConstraintLayout  : "androidx.constraintlayout:constraintlayout:1.1.3"
+                    archRuntime              : "androidx.lifecycle:lifecycle-runtime:${version.arch}",
+                    archExtensions           : "androidx.lifecycle:lifecycle-extensions:${version.arch}",
+                    archCompiler             : "androidx.lifecycle:lifecycle-common-java8:${version.arch}",
+                    archCore                 : "androidx.core:core-ktx:1.0.0",
+                    archConstraintLayout     : "androidx.constraintlayout:constraintlayout:1.1.3"
             ],
             rx         : [
                     rxJava      : "io.reactivex.rxjava2:rxjava:2.1.5",
@@ -73,7 +75,7 @@ ext {
                     webView                       : "com.github.hzw1199:AwesomeWebView-Android:1.2",
                     commons                       : "commons-io:commons-io:2.4",
                     bottomSheet                   : "com.github.rubensousa:bottomsheetbuilder:1.6.1",
-                    "lottie"                      : "com.airbnb.android:lottie:2.8.0"
+                    lottie                        : "com.airbnb.android:lottie:2.8.0"
 
             ],
             uiTest  : [

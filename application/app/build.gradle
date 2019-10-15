@@ -41,7 +41,7 @@ android {
         }
         prod {
             dimension "default"
-            versionCode config.versionApp * 1000000 + config.versionFeature * 1000 + config.versionPatch * 100
+            versionCode 1
         }
     }
 
@@ -51,6 +51,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
         incremental = false
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     packagingOptions {

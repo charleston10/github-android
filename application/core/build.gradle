@@ -31,7 +31,6 @@ dependencies {
     def libCore = rootProject.ext.coreDependencies
     implementation libCore.kodein
 
-    implementation libCore.arch.archNavigationFragment
     implementation libCore.arch.archNavigationUi
     implementation libCore.arch.archRuntime
     implementation libCore.arch.archExtensions
